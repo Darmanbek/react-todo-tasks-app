@@ -1,0 +1,237 @@
+
+.ant-drawer-body
+{
+    padding: 0 !important;
+}
+
+.ant-switch
+{
+    background: rgba(0, 0, 0, .25) !important;
+}
+
+
+.ant-modal-content,
+.ant-modal-close,
+.ant-modal-header
+{
+    @apply !bg-light-nav;
+    @apply !text-light-text;
+    @apply dark:!bg-dark-nav;
+}
+
+
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-picker,
+.ant-picker-panel,
+.ant-picker-panel-container
+{
+    @apply !bg-light-nav;
+    @apply !text-light-text;
+    @apply focus-within:!border-light-violet;
+    @apply hover:!border-light-violet;
+    
+    @apply dark:!bg-dark-nav;
+    @apply dark:!text-dark-text ;
+    @apply dark:hover:!border-light-violet;
+    @apply dark:!border-dark-text;   
+}
+
+
+.ant-picker-input-placeholder input
+{
+    @apply !text-dark-text/40;
+}
+
+
+.ant-picker-header,
+.ant-picker-header button,
+.ant-picker-content th,
+.ant-picker-content td
+{
+    @apply !text-light-text;
+    @apply dark:!text-dark-text;
+}
+
+
+.ant-picker-cell-selected .ant-picker-cell-inner
+{
+    @apply !bg-light-violet;
+}
+
+
+.ant-picker-cell-today .ant-picker-cell-inner::before
+{
+    @apply !border-light-violet;
+}
+
+.ant-picker-now-btn
+{
+    @apply hover:text-light-violet;
+}
+
+
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-picker-input input
+{
+    @apply placeholder:!text-dark-text;
+} 
+
+
+.ant-select-selection-placeholder
+{
+    @apply !text-dark-text;
+}
+
+
+.ant-input-outlined:focus-within,
+.ant-picker:focus-within
+{
+    @apply shadow-[0_0_0_2px] shadow-light-violet/[0.1]
+} 
+
+
+.ant-input-affix-wrapper input:focus-within
+{
+    @apply border-light-violet;
+} 
+
+
+.ant-checkbox-wrapper .ant-checkbox-inner
+{
+    @apply dark:bg-dark-nav;
+    @apply !border-dark-text;
+}
+
+
+.ant-checkbox-wrapper:hover .ant-checkbox-inner
+{
+    @apply !border-light-violet;
+}
+
+
+.ant-checkbox-checked .ant-checkbox-inner
+{
+    @apply !bg-light-violet;
+    @apply !border-light-violet;
+}
+
+
+.ant-input-affix-wrapper div
+{
+    @apply !text-light-violet;
+    @apply !bg-light-violet;
+    @apply !border-light-violet;
+}
+
+
+
+.ant-btn-primary
+{
+    @apply !bg-light-violet;
+}
+
+.ant-btn-primary div
+{
+    @apply !bg-light-violet;
+}
+
+
+
+
+
+.ant-select-selector,
+.ant-select-dropdown
+{
+    @apply hover:!border-light-violet;
+    @apply !bg-light-nav;
+    @apply dark:!bg-dark-nav;
+    @apply dark:!border-light-text
+}
+
+
+
+.ant-select-item-option-selected
+{
+    @apply !bg-light-bg/75;
+    @apply dark:!bg-light-bg/25;
+}
+
+
+
+.ant-select-item-option-active
+{
+    @apply dark:!bg-light-bg/10;
+}
+
+
+
+.ant-select-item,
+.ant-select-selector .ant-select-selection-item
+{
+    @apply !text-light-text;
+    @apply dark:!text-dark-text;
+}
+
+
+
+.ant-select-arrow
+{
+    @apply !text-light-violet/[0.25];
+    @apply dark:!text-light-violet/[0.75];
+}
+
+
+
+.ant-select-selector:focus-within
+{
+    @apply !border-light-violet;
+    @apply !shadow-[0_0_0_2px] !shadow-light-violet/[0.1];
+}
+
+
+
+.ant-select-selector:focus
+{
+    @apply !border-light-violet;
+}
+
+
+
+.ant-select-selection-item
+{
+    @apply !text-light-text;
+    @apply dark:!text-dark-text;
+}
+
+
+
+
+
+.ant-menu-item
+{
+    transition: background .3s color .3s !important;
+    @apply !text-light-menu-text/[0.88];
+    @apply dark:!text-dark-menu-text/[0.88];
+}
+
+
+
+.ant-menu-item:active
+{
+    @apply !bg-light-menu-bg-selected;
+    @apply dark:!bg-dark-menu-bg-selected;
+}
+
+
+
+.ant-menu-item-selected
+{
+    transition: background .3s color .3s !important;
+    @apply !bg-light-menu-bg-selected; 
+    @apply !text-light-menu-bg-selected-text; 
+    @apply dark:!bg-dark-menu-bg-selected;
+    @apply dark:!text-dark-menu-text-selected-text;
+}
+

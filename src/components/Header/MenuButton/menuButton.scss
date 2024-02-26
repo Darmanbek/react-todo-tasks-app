@@ -1,0 +1,65 @@
+.menu-button
+{ 
+    cursor: pointer;
+    position: relative;
+
+    width: 40px;
+    height: 40px;
+
+
+    span
+    {
+        width: 100%;
+        height: 4px;
+        border-radius: 2px;
+        background-color: #5b21b6;
+        transform: translateY(-100%);
+        transition: all .3s;
+        
+        
+        &::before
+        {
+            content: "";
+            position: absolute;
+            border-radius: 2px;
+            top: 0px;
+            left: 0;
+            right: 0;
+            width: 40px;
+            height: 4px;
+            background-color: #5b21b6;
+            transform: translateY(-12px);
+            transition: all .3s;
+        }
+
+        &::after
+        {
+            content: "";
+            position: absolute;
+            border-radius: 2px;
+            top: 0px;
+            left: 0;
+            right: 0;
+            width: 40px;
+            height: 4px;
+            background-color: #5b21b6;
+            transform: translateY(12px);
+            transition: all .3s;
+        }
+        
+        &.active
+        {
+            transform: translateY(-100%) rotate(45deg);       
+
+            &::after
+            {
+                transform: translateY(0) rotate(-90deg);       
+            }
+            
+            &::before
+            {
+                transform: translateY(0) rotate(-90deg);
+            }
+        }
+    }
+}

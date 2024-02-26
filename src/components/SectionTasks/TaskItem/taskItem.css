@@ -1,0 +1,21 @@
+.task-item
+{
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;    
+}
+
+.task-item__catalog
+{
+    position: absolute;
+    background-color: #ffe4e6;
+    color: #e11d48;
+    top: -5%;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 10px
+}

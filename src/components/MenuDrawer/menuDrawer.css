@@ -1,0 +1,8 @@
+.menu-drawer__title
+{
+    padding: 25px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+}
