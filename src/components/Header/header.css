@@ -12,3 +12,17 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.ant-popover-arrow::before,
+.ant-popover-arrow::after,
+.ant-popover-content .ant-popover-inner
+{
+    @apply !bg-light-nav;
+    @apply dark:!bg-dark-nav;
+}
+
+.ant-badge-count
+{
+    @apply dark:text-black;
+    @apply dark:shadow-none;
+}

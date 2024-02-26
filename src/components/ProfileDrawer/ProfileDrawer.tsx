@@ -6,8 +6,6 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import type { RootState } from "../../store";
 import { handleMode } from "../../store/mode/modeSlice";
 import { setDrawerMask, setRightDrawer } from "../../store/drawer/drawerSlice";
-import "./profileDrawer.css";
-import { Navigate } from "react-router-dom";
 
 const ProfileDrawer: React.FC = () => {
     const { mode } = useAppSelector((state: RootState) => state.mode)

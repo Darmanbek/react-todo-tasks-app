@@ -1,6 +1,6 @@
+import React from "react";
 import { Input } from "antd";
 import { BsSearch } from "react-icons/bs";
-import React from "react";
 
 interface SearchInputProps {
     styles: string

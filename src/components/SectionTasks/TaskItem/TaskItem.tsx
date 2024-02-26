@@ -4,7 +4,7 @@ import { GoStarFill } from "react-icons/go";
 import { BiSolidTrashAlt, BiDotsVerticalRounded  } from "react-icons/bi";
 import { MdEdit } from 'react-icons/md';
 import { ITaskState } from '../../../model/task';
-import './taskItem.css'
+import './taskItem.scss'
 
 const TaskItem: React.FC<ITaskState> = ({ title, description, date, dir, important, completed }) => {
     
@@ -22,12 +22,8 @@ const TaskItem: React.FC<ITaskState> = ({ title, description, date, dir, importa
             </div>
             <div className="flex items-center justify-between mx-[-10px]">
                 <button className={`
-                ${completed ? "bg-light-check-bg text-light-check-text " : "bg-light-uncheck-bg text-light-uncheck-text"}
-                py-[5px] 
-                px-[10px] 
-                rounded-3xl 
-                text-sm 
-                cursor-pointer
+                task-item__check
+                ${completed ? "checked" : ""}
                 `}>
                     <span className="">{completed ? "Выполненный" : "Невыполненный"}</span>
                 </button>

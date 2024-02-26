@@ -1,0 +1,56 @@
+.task-item
+{
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;    
+
+    .task-item__catalog
+    {
+        @apply bg-[#ffe4e6];
+        @apply dark:bg-dark-nav;
+        @apply dark:border-[#e11d48];
+
+        position: absolute;
+        background-color: #ffe4e6;
+        color: #e11d48;
+        border: 1px solid #ffe4e6;
+        top: -5%;
+        right: 10px;
+        padding: 5px 10px;
+        border-radius: 10px
+    }
+
+    .task-item__check
+    {
+        @apply bg-light-uncheck-bg;
+        @apply text-light-uncheck-text;
+        @apply dark:bg-light-uncheck-bg;
+        @apply dark:text-light-uncheck-text;
+        @apply dark:border;
+        @apply dark:border-solid;
+        @apply dark:bg-transparent;
+        @apply dark:border-light-uncheck-bg;
+        @apply dark:text-light-uncheck-bg;
+
+        cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 1.5rem;
+        font-size: 0.875rem; /* 14px */
+        line-height: 1.25rem; /* 20px */
+
+
+        &.checked
+        {
+            @apply bg-light-check-bg; 
+            @apply text-light-check-text; 
+            @apply dark:bg-transparent;
+            @apply dark:border-light-check-bg;
+            @apply dark:text-light-check-bg;
+        }
+    }
+}
+

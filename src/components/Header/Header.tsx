@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Badge, Popover, Select } from 'antd'
 import { BsFillBellFill } from 'react-icons/bs';
 import TaskList from './TaskList/TaskList';
