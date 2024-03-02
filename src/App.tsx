@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
 import {
     Header,
     SectionTasks,
@@ -6,27 +7,22 @@ import {
     MenuDrawer,
     ProfileDrawer,
     ModalTask
-} from './components'
-import { useAppDispatch, useAppSelector } from './store/hooks'
-import type { RootState } from './store'
-import { getTasks } from './store/tasks/tasksSlice'
-import './styles/app.css'
+} from "./components";
+import { useAppSelector } from "./store/hooks"
+import type { RootState } from "./store"
+import "./styles/app.css"
 
 const App: React.FC = () => {
     const { mode } = useAppSelector((state: RootState) => state.mode)
-    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (mode) {
-            document.body.classList.add('dark')
+            document.body.classList.add("dark")
         } else {
-            document.body.classList.remove('dark')
+            document.body.classList.remove("dark")
         }
     }, [mode])
 
-    useEffect(() => {
-        dispatch(getTasks())
-    }, [dispatch])
     return (
         <div className="app bg-light-bg dark:bg-dark-bg">
             <div className="layout">
@@ -44,7 +40,10 @@ const App: React.FC = () => {
                 gap-5
                 ">
                     <Header />
-                    <SectionTasks />
+                    <Routes>
+                        <Route path="/" element={ <SectionTasks /> }/>
+                        <Route path="/:categoryID" element={ <SectionTasks /> }/>
+                    </Routes>
                     <Footer />
                 </div>
                 <ProfileDrawer />

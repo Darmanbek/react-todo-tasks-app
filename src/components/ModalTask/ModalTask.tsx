@@ -1,24 +1,47 @@
-import React from 'react'
-import { Button, Checkbox, DatePicker, Form, Input, Modal, Select } from 'antd'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { RootState } from '../../store'
-import { handleModal } from '../../store/modal/modalSlice'
-import { ITaskState } from '../../model/task'
-import { catalogItems } from './catalogItems'
+import React, { useState } from "react"
+import { Button, Checkbox, DatePicker, Form, Input, Modal, Select } from "antd"
+import type { CheckboxProps } from "antd"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { RootState } from "../../store"
+import { handleModal } from "../../store/modal/modalSlice"
+import { ITaskState } from "../../model/task"
+import { catalogItems } from "./catalogItems"
+import { addTask } from "../../store/tasks/tasksSlice"
+
 
 const { TextArea } = Input;
 
 const ModalTask: React.FC = () => {
     const { open } = useAppSelector((state: RootState) => state.modal)
     const dispatch = useAppDispatch()
+    const [form] = Form.useForm<ITaskState>()
+    const [checkImportant, setCheckImportant] = useState(false)
+    const [checkCompleted, setCheckCompleted] = useState(false)
 
     const handleCancel = () => {
         dispatch(handleModal())
     }
 
+    const onChangeCheckBox: CheckboxProps['onChange'] = (e) => {
+        if (e.target.id === "important") {
+            setCheckImportant(e.target.checked)
+        } else {
+            setCheckCompleted(e.target.checked)
+        }
+    }
+
     const onFinish = (values: any) => {
-        console.log(values);
-        
+        let dd = values.date["$D"];
+        dd = dd < 10 ? "0" + dd : dd;
+        let mm = values.date["$M"] + 1;
+        mm = mm < 10 ? "0" + mm : mm;
+        const yyyy = values.date["$y"];
+        values.date = `${yyyy}-${mm}-${dd}`
+        values.important = checkImportant;
+        values.completed = checkCompleted;
+        form.resetFields();
+        dispatch(addTask(values));
+        handleCancel()
     }
 
     return (
@@ -31,6 +54,7 @@ const ModalTask: React.FC = () => {
         footer={null}
         >
             <Form
+            form={form}
             onFinish={onFinish}
             layout="vertical"
             autoComplete="off"
@@ -40,7 +64,7 @@ const ModalTask: React.FC = () => {
                 name="title"
                 rules={[{ 
                     required: true,
-                    message: 'Пожалуйста, заполните заголовок!' }]}
+                    message: "Пожалуйста, заполните заголовок!" }]}
                 >
                     <Input size="large" placeholder="например, исследование для теста"/>
                 </Form.Item>
@@ -49,9 +73,10 @@ const ModalTask: React.FC = () => {
                 name="date"
                 rules={[{ 
                     required: true,
-                    message: 'Пожалуйста, заполните дату!'}]}
+                    message: "Пожалуйста, заполните дату!"}]}
                 >
                     <DatePicker 
+                    format={"YYYY-MM-DD"}
                     placeholder="Выберите дату"
                     className="w-full"
                     size="large"
@@ -62,7 +87,7 @@ const ModalTask: React.FC = () => {
                 name="description"
                 rules={[{ 
                     required: true,
-                    message: 'Пожалуйста, заполните описание!'}]}
+                    message: "Пожалуйста, заполните описание!"}]}
                 >
                     <TextArea 
                     size="large" 
@@ -73,7 +98,7 @@ const ModalTask: React.FC = () => {
                 name="dir"
                 rules={[{ 
                     required: true,
-                    message: 'Пожалуйста, заполните каталог!'}]}
+                    message: "Пожалуйста, заполните каталог!"}]}
                 >
                     <Select 
                     size="large"
@@ -85,7 +110,7 @@ const ModalTask: React.FC = () => {
                 name="important"
                 valuePropName="checked"
                 >
-                    <Checkbox>
+                    <Checkbox value={checkImportant} onChange={onChangeCheckBox}>
                         <span 
                         className="text-light-modal-text dark:text-dark-text">
                             Отметить как важное
@@ -96,7 +121,7 @@ const ModalTask: React.FC = () => {
                 name="completed"
                 valuePropName="checked"
                 >
-                    <Checkbox>
+                    <Checkbox value={checkCompleted} onChange={onChangeCheckBox}>
                         <span className="text-light-modal-text dark:text-dark-text">
                         Отметить как выполненное
                         </span>

@@ -2,13 +2,41 @@ import { createSlice, createAsyncThunk, ActionReducerMapBuilder, PayloadAction  
 import { api } from "../../api";
 import { ITaskState } from "../../model/task";
 
-export const getTasks = createAsyncThunk<ITaskState[], void>("tasks/getTasks", async (_, { rejectWithValue }) => {
+
+const getFilterResponce = (category: string) => {
+    switch (category) {
+        case "important": return "?important=true";
+        case "completed": return "?completed=true";
+        case "uncompleted": return "?completed=false";
+        default: return "/";
+    }
+}
+
+const getToday = () => {
+    const date = new Date();
+    let dd: string | number = date.getDate();
+    let mm: string | number = date.getMonth() + 1;
+    let yyyy: number = date.getFullYear();
+    dd = dd < 10 ? "0" + dd : dd;
+    mm = mm < 10 ? "0" + mm : mm;
+
+    const today: string = yyyy + '-' + mm + '-' +  dd;
+
+    return today;
+}
+
+export const getTasks = createAsyncThunk<ITaskState[], string>("tasks/getTasks", async (category: string, { rejectWithValue, dispatch }) => {
+    dispatch(setCategory("/" + category));
+    const filters = getFilterResponce(category);
     try {
-        const responce = await api.get("/tasks")
-        console.log(responce);
-        
+        const responce = await api.get(`/tasks${filters}`)
+
         if (responce.status === 200) {
-            console.log(responce.data);
+            if (category === "today") {
+                const today = getToday();
+                const responceToday = responce.data.filter((el: ITaskState) => el.date === today);
+                return responceToday;
+            }
             return responce.data;
         }
     } catch (error: any) {
@@ -16,14 +44,28 @@ export const getTasks = createAsyncThunk<ITaskState[], void>("tasks/getTasks", a
     }
 })
 
+export const addTask = createAsyncThunk("tasks/addTask", async (newTaks: ITaskState, { rejectWithValue, dispatch }) => {
+    try {
+        const responce = await api.post("/tasks", newTaks);
+
+        if (responce.status === 201) {
+            dispatch(addNewTask(responce.data))
+        }
+    } catch (error: any) {
+        return rejectWithValue(error.message);
+    }
+})
+
 export interface ITasksState {
     tasks: ITaskState[];
+    category: string;
     loading: string;
     error: any;
 }
 
 const initialState: ITasksState = {
     tasks: [],
+    category: "/",
     loading: "",
     error: null
 }
@@ -31,7 +73,14 @@ const initialState: ITasksState = {
 export const tasksSlice = createSlice({
     name: 'tasks',
     initialState,
-    reducers: {  },
+    reducers: { 
+        addNewTask: (state, { payload }: PayloadAction<ITaskState>) => {
+            state.tasks = [...state.tasks, payload];
+        },
+        setCategory: (state, { payload }: PayloadAction<string>) => {
+            state.category = payload;
+        },
+    },
     extraReducers: (builders: ActionReducerMapBuilder<ITasksState>) => {
         builders.addCase(getTasks.pending, (state: ITasksState) => {
             state.loading = "pending";
@@ -49,6 +98,6 @@ export const tasksSlice = createSlice({
     }
 })
 
-export const { } = tasksSlice.actions;
+export const { setCategory, addNewTask } = tasksSlice.actions;
 
 export default tasksSlice.reducer;

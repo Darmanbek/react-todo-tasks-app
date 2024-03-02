@@ -9,8 +9,10 @@ import "./menuDrawer.css";
 
 const MenuDrawer: React.FC = () => {
     const { drawerLeftOpen, drawerMask } = useAppSelector((state: RootState) => state.drawer)
+    const { category } = useAppSelector((state: RootState) => state.tasks)
     const dispatch = useAppDispatch();
-
+    const { items } = menuItems();
+    
     const showDrawer = () => {
         dispatch(setLeftDrawer(true))
         dispatch(setDrawerMask(false))
@@ -55,9 +57,9 @@ const MenuDrawer: React.FC = () => {
                 </div>
                 <Menu
                     className="menu-drawer__menu bg-light-nav dark:bg-dark-nav"
-                    defaultSelectedKeys={["1"]}
+                    defaultSelectedKeys={[category]}
                     mode="inline"
-                    items={menuItems}
+                    items={items}
                 />
             </div>
         </Drawer>

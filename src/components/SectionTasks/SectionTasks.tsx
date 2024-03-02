@@ -1,11 +1,20 @@
-import React from 'react'
-import { useAppSelector } from '../../store/hooks'
+import React, { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { RootState } from '../../store';
 import TaskItem from './TaskItem/TaskItem'
+import { getTasks } from '../../store/tasks/tasksSlice';
+import { useParams } from 'react-router-dom';
 
 const SectionTasks: React.FC = () => {
     const { tasks } = useAppSelector((state: RootState) => state.tasks);
+    const dispatch = useAppDispatch();
+    const { categoryID } = useParams();
+    
 
+    useEffect(() => {
+        const category = categoryID || ""
+        dispatch(getTasks(category))
+    }, [dispatch, categoryID])
     return (
         <section className="section-tasks">
             <div className="tasks-inner">
