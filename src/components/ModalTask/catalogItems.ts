@@ -1,6 +1,6 @@
-import type { SelectProps } from 'antd'
+import type { SelectProps } from "antd"
 
-export const catalogItems: SelectProps['options'] = [
-    { value: 'Main', label: 'Main'},
-    { value: 'Music', label: 'Music'}
+export const catalogItems: SelectProps["options"] = [
+	{ value: "Main", label: "Main" },
+	{ value: "Music", label: "Music" }
 ]

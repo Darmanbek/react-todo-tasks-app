@@ -1,12 +1,10 @@
-export interface IFormItems {
-    
-}
+export interface IFormItems {}
 
 /*
 <Form.Item<ITaskState>
 label={<span className="text-light-modal-text dark:text-dark-text">Заголовок</span>}
 name="title"
-rules={[{ 
+rules={[{
     required: true,
     message: 'Пожалуйста, заполните заголовок!' }]}
 >
@@ -14,6 +12,4 @@ rules={[{
 </Form.Item>
  */
 
-export const formItems = [
-    
-]
+export const formItems = []

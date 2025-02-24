@@ -1,47 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*,
-*::after,
-*::before
-{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: none;
-    text-decoration: none;
-    list-style: none;
-}
-
-img
-{
-    max-width: 100%;
-    height: auto;
-    display: inline-block;
-}
-
-a,
-span,
-button
-{
-    display: inline-block;
-    border: none;
-    background: transparent;
-}
-
-ul,
-li
-{
-    margin: 0;
-    padding: 0;
-}
-
-body
-{
-    font-family: 'Montserrat', sans-serif;
-    min-height: 100vh;
-    transition: all .3s;
+body {
+	font-family: "Montserrat", sans-serif;
+	min-height: 100vh;
+	transition: all .3s;
 }

@@ -1,69 +1,79 @@
-import React, { useEffect, useState } from "react";
-import { Button, Drawer, Menu } from "antd";
-import { menuItems } from "./menuItems";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { handleModal } from "../../store/modal/modalSlice";
-import { RootState } from "../../store";
-import { setDrawerMask, setLeftDrawer } from "../../store/drawer/drawerSlice";
-import "./menuDrawer.css";
+import { Button, Drawer, Flex, Menu, Typography } from "antd"
+import React, { useCallback, useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "src/hooks"
+import { setDrawerMask, setLeftDrawer } from "src/store/drawer/drawer.slice"
+import { handleModal } from "src/store/modal/modal.slice"
+import { useMenuItems } from "./useMenuItems"
 
 const MenuDrawer: React.FC = () => {
-    const { drawerLeftOpen, drawerMask } = useAppSelector((state: RootState) => state.drawer)
-    const { category } = useAppSelector((state: RootState) => state.tasks)
-    const dispatch = useAppDispatch();
-    const { items } = menuItems();
-    
-    const showDrawer = () => {
-        dispatch(setLeftDrawer(true))
-        dispatch(setDrawerMask(false))
-    }
+	const { drawerLeftOpen, drawerMask } = useAppSelector((state) => state.drawer)
+	const { category } = useAppSelector((state) => state.tasks)
+	const dispatch = useAppDispatch()
+	const { items } = useMenuItems()
 
-    const onClose = () => {
-        dispatch(setDrawerMask(true))
-        dispatch(setLeftDrawer(false))
-    };
+	const showDrawer = useCallback(() => {
+		dispatch(setLeftDrawer(true))
+		dispatch(setDrawerMask(false))
+	}, [dispatch])
 
-    const showModal = () => {
-        dispatch(handleModal())
-    }
+	const onClose = useCallback(() => {
+		dispatch(setDrawerMask(true))
+		dispatch(setLeftDrawer(false))
+	}, [dispatch])
 
-    const handleDrawer = () => {
-        const width = document.body.clientWidth
-        if (width < 1280) {
-            onClose();
-        } else {
-            showDrawer()
-        }
-    }
+	const showModal = () => {
+		dispatch(handleModal())
+	}
 
-    window.addEventListener("resize", handleDrawer)
-    
-    useEffect(handleDrawer, [])
-    return (
-        <Drawer
-            mask={drawerMask}
-            width={256}
-            placement="left"
-            closable={false}
-            onClose={onClose}
-            open={drawerLeftOpen}
-            key="left"
-            className="menu-drawer"
-        >
-            <div className="menu-drawer-inner bg-light-nav dark:bg-dark-nav h-full w-full" >
-                <div className="menu-drawer__title">
-                    <h2 className="text-light-text dark:text-dark-text font-bold text-[24px]">СПИСОК-ДЕЛ</h2>
-                    <Button type="primary" onClick={showModal} className="menu-drawer__button">Добавить новую задачу</Button>
-                </div>
-                <Menu
-                    className="menu-drawer__menu bg-light-nav dark:bg-dark-nav"
-                    defaultSelectedKeys={[category]}
-                    mode="inline"
-                    items={items}
-                />
-            </div>
-        </Drawer>
-    );
-};
+	const handleDrawer = () => {
+		const width = document.body.clientWidth
+		if (width < 1280) {
+			onClose()
+		} else {
+			showDrawer()
+		}
+	}
 
-export default MenuDrawer;
+	window.addEventListener("resize", handleDrawer)
+
+	useEffect(handleDrawer, [onClose, showDrawer])
+	return (
+		<Drawer
+			mask={drawerMask}
+			width={256}
+			placement={"left"}
+			closable={false}
+			onClose={onClose}
+			open={drawerLeftOpen}
+			styles={{
+				body: {
+					padding: 0
+				}
+			}}
+		>
+			<div
+				style={{
+					height: "100%",
+					width: "100%"
+				}}
+			>
+				<Flex
+					vertical={true}
+					gap={8}
+					style={{
+						padding: "32px 12px",
+						textAlign: "center"
+					}}
+				>
+					<Typography.Title level={3}>СПИСОК-ДЕЛ</Typography.Title>
+					<Button type={"primary"} onClick={showModal}>
+						Добавить новую задачу
+					</Button>
+				</Flex>
+				<Menu defaultSelectedKeys={[category]} mode={"inline"} items={items} />
+			</div>
+		</Drawer>
+	)
+}
+
+export { MenuDrawer }

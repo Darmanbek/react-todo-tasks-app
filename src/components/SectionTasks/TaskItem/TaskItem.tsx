@@ -1,40 +1,40 @@
-import React from 'react'
-import { IoMdCalendar } from 'react-icons/io';
-import { GoStarFill } from "react-icons/go";
-import { BiSolidTrashAlt, BiDotsVerticalRounded  } from "react-icons/bi";
-import { MdEdit } from 'react-icons/md';
-import { ITaskState } from '../../../model/task';
-import './taskItem.scss'
+import { Badge, Card, Flex, Space, Typography } from "antd"
+import type { FC } from "react"
+import { BiSolidTrashAlt } from "react-icons/bi"
+import { GoStarFill } from "react-icons/go"
+import { IoMdCalendar } from "react-icons/io"
+import { MdEdit } from "react-icons/md"
+import type { ITaskState } from "src/model/task"
 
-const TaskItem: React.FC<ITaskState> = ({ title, description, date, dir, important, completed }) => {
-    
-    const icon_styles = "cursor-pointer text-light-text dark:text-dark-text"
-    return (
-        <div className="task-item bg-light-nav dark:bg-dark-nav">
-            <div className="task-item__catalog">{dir}</div>
-            <div className="flex flex-col gap-[10px] h-full pb-[10px] border-b-[1px] border-dashed border-light-text">
-                <h4 className="text-light-text-v2 dark:text-dark-text-v2 font-[600]">{title}</h4>
-                <p className="text-light-text dark:text-dark-text">{description}</p>
-                <div className="flex items-center gap-[10px] text-light-text dark:text-dark-text mt-[20px]">
-                    <IoMdCalendar />
-                    <span>{date}</span>
-                </div>
-            </div>
-            <div className="flex items-center justify-between mx-[-10px]">
-                <button className={`
-                task-item__check
-                ${completed ? "checked" : ""}
-                `}>
-                    <span className="">{completed ? "Выполненный" : "Невыполненный"}</span>
-                </button>
-                <span className="flex items-center gap-[5px]">
-                    <GoStarFill fontSize={24} className={`${icon_styles} ${important ? "text-light-menu-bg-selected-text" : ""}`}/>
-                    <BiSolidTrashAlt fontSize={24} className={icon_styles}/>
-                    <MdEdit fontSize={24} className={icon_styles}/>
-                </span>
-            </div>
-        </div>
-    )
+const TaskItem: FC<ITaskState> = ({ title, description, date, dir, completed }) => {
+	return (
+		<Badge.Ribbon text={dir}>
+			<Card
+				title={title}
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					gap: 20
+				}}
+				actions={[
+					<button key={"check"}>
+						<span className={""}>{completed ? "Выполненный" : "Невыполненный"}</span>
+					</button>,
+					<GoStarFill key={"favorite"} />,
+					<BiSolidTrashAlt key={"delete"} />,
+					<MdEdit key={"edit"} />
+				]}
+			>
+				<Typography.Paragraph>{description}</Typography.Paragraph>
+				<Flex>
+					<Space>
+						<IoMdCalendar />
+						<span>{date}</span>
+					</Space>
+				</Flex>
+			</Card>
+		</Badge.Ribbon>
+	)
 }
 
 export default TaskItem
