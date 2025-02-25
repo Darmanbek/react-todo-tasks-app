@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+	scrollbar-width: thin;
+}
+
 body {
 	font-family: "Montserrat", sans-serif;
 	min-height: 100vh;

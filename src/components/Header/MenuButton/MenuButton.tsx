@@ -1,3 +1,4 @@
+import { MenuOutlined } from "@ant-design/icons"
 import { Button } from "antd"
 import React from "react"
 import { useAppDispatch } from "src/hooks"
@@ -14,8 +15,10 @@ const MenuButton: React.FC = () => {
 	return (
 		<Button
 			onClick={handleMenu}
+			size={"large"}
+			type={"text"}
 			className={"cursor-pointer relative size-10 hidden max-xl:block"}
-			icon={"="}
+			icon={<MenuOutlined />}
 		/>
 	)
 }

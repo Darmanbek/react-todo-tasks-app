@@ -1,20 +1,22 @@
 import { Button, Drawer, Flex, Menu, Typography } from "antd"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback } from "react"
 import { useAppDispatch, useAppSelector } from "src/hooks"
 import { setDrawerMask, setLeftDrawer } from "src/store/drawer/drawer.slice"
 import { handleModal } from "src/store/modal/modal.slice"
 import { useMenuItems } from "./useMenuItems"
 
 const MenuDrawer: React.FC = () => {
+	// const { xl } = useResponsive()
+
 	const { drawerLeftOpen, drawerMask } = useAppSelector((state) => state.drawer)
 	const { category } = useAppSelector((state) => state.tasks)
 	const dispatch = useAppDispatch()
 	const { items } = useMenuItems()
 
-	const showDrawer = useCallback(() => {
-		dispatch(setLeftDrawer(true))
-		dispatch(setDrawerMask(false))
-	}, [dispatch])
+	// const showDrawer = useCallback(() => {
+	// 	dispatch(setLeftDrawer(true))
+	// 	dispatch(setDrawerMask(false))
+	// }, [dispatch])
 
 	const onClose = useCallback(() => {
 		dispatch(setDrawerMask(true))
@@ -25,18 +27,18 @@ const MenuDrawer: React.FC = () => {
 		dispatch(handleModal())
 	}
 
-	const handleDrawer = () => {
-		const width = document.body.clientWidth
-		if (width < 1280) {
-			onClose()
-		} else {
-			showDrawer()
-		}
-	}
-
-	window.addEventListener("resize", handleDrawer)
-
-	useEffect(handleDrawer, [onClose, showDrawer])
+	// const handleDrawer = () => {
+	// 	const width = document.body.clientWidth
+	// 	if (width < 1280) {
+	// 		onClose()
+	// 	} else {
+	// 		showDrawer()
+	// 	}
+	// }
+	//
+	// window.addEventListener("resize", handleDrawer)
+	//
+	// useEffect(handleDrawer, [onClose, showDrawer])
 	return (
 		<Drawer
 			mask={drawerMask}
