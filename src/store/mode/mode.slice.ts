@@ -1,26 +1,26 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
 export interface IModeState {
-	mode: boolean
+	isDarkMode: boolean
 }
 
 const initialState: IModeState = {
-	mode: false
+	isDarkMode: false
 }
 
 export const modeSlice = createSlice({
 	name: "mode",
 	initialState,
 	reducers: {
-		handleMode: (state) => {
-			state.mode = !state.mode
+		toggleMode: (state) => {
+			state.isDarkMode = !state.isDarkMode
 		},
 		setMode: (state, { payload }: PayloadAction<boolean>) => {
-			state.mode = payload
+			state.isDarkMode = payload
 		}
 	}
 })
 
-export const { handleMode, setMode } = modeSlice.actions
+export const { toggleMode, setMode } = modeSlice.actions
 
 export default modeSlice.reducer

@@ -3,30 +3,44 @@ import { Avatar, Button, Drawer, Flex, Progress, Switch, Typography } from "antd
 import { useResponsive } from "antd-style"
 import React, { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "src/hooks"
-import { setRightDrawer } from "src/store/drawer/drawer.slice"
-import { handleMode } from "src/store/mode/mode.slice"
+import { setDrawer, toggleMode } from "src/store"
 
 const ProfileDrawer: React.FC = () => {
 	const { xl } = useResponsive()
 	// const { mode } = useAppSelector((state) => state.mode)
-	const { drawerRightOpen } = useAppSelector((state) => state.drawer)
-	const { mode } = useAppSelector((state) => state.mode)
+	const { right } = useAppSelector((state) => state.drawer)
+	const { isDarkMode } = useAppSelector((state) => state.mode)
 	const { tasks } = useAppSelector((state) => state.tasks)
 	const dispatch = useAppDispatch()
 
-	const switchChange = () => {
-		dispatch(handleMode())
+	const toggleTheme = () => {
+		dispatch(toggleMode())
 	}
 
 	const onClose = () => {
-		dispatch(setRightDrawer(false))
+		dispatch(
+			setDrawer({
+				side: "right",
+				open: false
+			})
+		)
 	}
 
 	useEffect(() => {
 		if (xl) {
-			dispatch(setRightDrawer(true))
+			dispatch(
+				setDrawer({
+					side: "right",
+					open: true
+				})
+			)
 		} else {
-			dispatch(setRightDrawer(false))
+			dispatch(
+				setDrawer({
+					side: "right",
+					open: false
+				})
+			)
 		}
 	}, [dispatch, xl])
 	return (
@@ -36,7 +50,7 @@ const ProfileDrawer: React.FC = () => {
 			placement={"right"}
 			closable={false}
 			onClose={onClose}
-			open={!xl ? xl || drawerRightOpen : drawerRightOpen}
+			open={!xl ? xl || right : right}
 			key={"right"}
 		>
 			<Flex vertical={true} justify={"space-between"} style={{ width: "100%", height: "100%" }}>
@@ -60,11 +74,10 @@ const ProfileDrawer: React.FC = () => {
 							Темный режим
 						</Typography.Title>
 						<Switch
-							className={""}
-							checked={mode}
+							checked={isDarkMode}
 							checkedChildren={<MoonFilled />}
 							unCheckedChildren={<SunFilled />}
-							onChange={switchChange}
+							onChange={toggleTheme}
 						/>
 					</Flex>
 					<Flex vertical={true} gap={8}>

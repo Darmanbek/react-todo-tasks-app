@@ -10,7 +10,11 @@ import { Badge, Card, Flex, Switch, Tag, Typography } from "antd"
 import type { FC } from "react"
 import type { ITaskState } from "src/model/task"
 
-const TaskItem: FC<ITaskState> = ({ title, description, date, dir, completed }) => {
+interface TaskItemProps {
+	task: ITaskState
+}
+
+const TaskItem: FC<TaskItemProps> = ({ task: { title, description, date, dir, completed } }) => {
 	return (
 		<Badge.Ribbon text={dir}>
 			<Card
@@ -57,4 +61,4 @@ const TaskItem: FC<ITaskState> = ({ title, description, date, dir, completed }) 
 	)
 }
 
-export default TaskItem
+export { TaskItem }

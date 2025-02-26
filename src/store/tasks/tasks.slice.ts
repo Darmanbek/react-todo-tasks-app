@@ -4,79 +4,73 @@ import {
 	createSlice,
 	type PayloadAction
 } from "@reduxjs/toolkit"
+import dayjs from "dayjs"
 import { api } from "src/api"
+import type { SearchParams } from "src/model/response"
 import type { ITaskState } from "src/model/task"
 
-const getFilterResponse = (category: string) => {
-	switch (category) {
-		case "important":
-			return "?important=true"
-		case "completed":
-			return "?completed=true"
-		case "uncompleted":
-			return "?completed=false"
-		default:
-			return "/"
-	}
+const handleError = (e: unknown, rejectWithValue: (value: unknown) => unknown) => {
+	const error = e as Error
+	return rejectWithValue(error.message)
 }
 
-const getToday = () => {
-	const date = new Date()
-	let dd: string | number = date.getDate()
-	let mm: string | number = date.getMonth() + 1
-	const yyyy: number = date.getFullYear()
-	dd = dd < 10 ? "0" + dd : dd
-	mm = mm < 10 ? "0" + mm : mm
-
-	return yyyy + "-" + mm + "-" + dd
-}
-
-export const getTasks = createAsyncThunk<ITaskState[], string>(
+export const getTasks = createAsyncThunk<ITaskState[], Record<string, unknown>>(
 	"tasks/getTasks",
-	async (category: string, { rejectWithValue, dispatch }) => {
-		dispatch(setCategory("/" + category))
-		const filters = getFilterResponse(category)
+	async (filters: SearchParams = {}, { rejectWithValue }) => {
+		const categoryFilter = (task: ITaskState) => {
+			switch (filters.category) {
+				case "today":
+					return task.date === dayjs().format("YYYY-MM-DD")
+				case "important":
+					return task.important
+				case "completed":
+					return task.completed
+				case "uncompleted":
+					return !task.completed
+				default:
+					return true
+			}
+		}
+
 		try {
-			const response = await api.get(`/tasks${filters}`)
+			const response = await api.get(`/tasks`, {
+				params: filters.search
+					? {
+							search: filters.search
+						}
+					: {}
+			})
 
 			if (response.status === 200) {
-				if (category === "today") {
-					const today = getToday()
-					return response.data.filter((el: ITaskState) => el.date === today)
-				}
-				return response.data
+				return response.data.filter(categoryFilter)
 			}
+			return []
 		} catch (e) {
-			const error = e as Error
-			return rejectWithValue(error.message)
+			return handleError(e, rejectWithValue)
 		}
 	}
 )
 
 export const addTask = createAsyncThunk(
 	"tasks/addTask",
-	async (newTasks: ITaskState, { rejectWithValue, dispatch }) => {
+	async (newTask: ITaskState, { rejectWithValue, dispatch }) => {
 		try {
-			const response = await api.post("/tasks", newTasks)
-
-			if (response.status === 201) {
-				dispatch(addNewTask(response.data))
-			}
+			const response = await api.post("/tasks", newTask)
+			if (response.status === 201) dispatch(addTask(response.data))
 		} catch (e) {
-			const error = e as Error
-			return rejectWithValue(error.message)
+			return handleError(e, rejectWithValue)
 		}
 	}
 )
 
-export interface ITasksState {
+export interface TasksState {
 	tasks: ITaskState[]
 	category: string
 	loading: boolean
 	error: string | null
 }
 
-const initialState: ITasksState = {
+const initialState: TasksState = {
 	tasks: [],
 	category: "/",
 	loading: false,
@@ -88,28 +82,25 @@ export const tasksSlice = createSlice({
 	initialState,
 	reducers: {
 		addNewTask: (state, { payload }: PayloadAction<ITaskState>) => {
-			state.tasks = [...state.tasks, payload]
+			state.tasks.push(payload)
 		},
 		setCategory: (state, { payload }: PayloadAction<string>) => {
 			state.category = payload
 		}
 	},
-	extraReducers: (builders: ActionReducerMapBuilder<ITasksState>) => {
-		builders.addCase(getTasks.pending, (state: ITasksState) => {
-			state.loading = true
-			state.error = null
-		}),
-			builders.addCase(
-				getTasks.fulfilled,
-				(state: ITasksState, { payload }: PayloadAction<ITaskState[]>) => {
-					state.tasks = payload
-					state.loading = false
-					state.error = null
-				}
-			),
-			builders.addCase(getTasks.rejected, (state: ITasksState, { payload }: PayloadAction<any>) => {
+	extraReducers: (builder: ActionReducerMapBuilder<TasksState>) => {
+		builder
+			.addCase(getTasks.pending, (state) => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(getTasks.fulfilled, (state, { payload }) => {
+				state.tasks = payload
 				state.loading = false
-				state.error = payload
+			})
+			.addCase(getTasks.rejected, (state, { payload }) => {
+				state.loading = false
+				state.error = payload as string
 			})
 	}
 })

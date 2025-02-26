@@ -2,15 +2,14 @@ import { Button, Drawer, Flex, Menu, Typography } from "antd"
 import { useResponsive } from "antd-style"
 import React, { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "src/hooks"
-import { setLeftDrawer } from "src/store/drawer/drawer.slice"
-import { handleModal } from "src/store/modal/modal.slice"
+import { setDrawer, toggleModal } from "src/store"
 import { useMenuItems } from "./useMenuItems"
 
 const MenuDrawer: React.FC = () => {
 	const { xl } = useResponsive()
 
-	const { mode } = useAppSelector((state) => state.mode)
-	const { drawerLeftOpen } = useAppSelector((state) => state.drawer)
+	const { isDarkMode } = useAppSelector((state) => state.mode)
+	const { left } = useAppSelector((state) => state.drawer)
 	const { category } = useAppSelector((state) => state.tasks)
 	const dispatch = useAppDispatch()
 	const items = useMenuItems()
@@ -21,18 +20,33 @@ const MenuDrawer: React.FC = () => {
 	// }, [dispatch])
 
 	const onClose = () => {
-		dispatch(setLeftDrawer(false))
+		dispatch(
+			setDrawer({
+				side: "left",
+				open: false
+			})
+		)
 	}
 
 	const showModal = () => {
-		dispatch(handleModal())
+		dispatch(toggleModal())
 	}
 
 	useEffect(() => {
 		if (xl) {
-			dispatch(setLeftDrawer(true))
+			dispatch(
+				setDrawer({
+					side: "left",
+					open: true
+				})
+			)
 		} else {
-			dispatch(setLeftDrawer(false))
+			dispatch(
+				setDrawer({
+					side: "left",
+					open: false
+				})
+			)
 		}
 	}, [dispatch, xl])
 	return (
@@ -42,7 +56,7 @@ const MenuDrawer: React.FC = () => {
 			placement={"left"}
 			closable={false}
 			onClose={onClose}
-			open={!xl ? xl || drawerLeftOpen : drawerLeftOpen}
+			open={!xl ? xl || left : left}
 			styles={{
 				body: {
 					padding: 0
@@ -72,7 +86,7 @@ const MenuDrawer: React.FC = () => {
 					style={{
 						backgroundColor: "transparent"
 					}}
-					theme={mode ? "dark" : "light"}
+					theme={isDarkMode ? "dark" : "light"}
 					defaultSelectedKeys={[category]}
 					mode={"inline"}
 					items={items}

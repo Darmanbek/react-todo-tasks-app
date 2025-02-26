@@ -2,14 +2,14 @@ import { MenuOutlined } from "@ant-design/icons"
 import { Button } from "antd"
 import React from "react"
 import { useAppDispatch } from "src/hooks"
-import { handleLeftDrawer } from "src/store/drawer/drawer.slice"
+import { toggleDrawer } from "src/store/drawer/drawer.slice"
 
 const MenuButton: React.FC = () => {
 	// const { drawerLeftOpen } = useAppSelector((state: RootState) => state.drawer)
 	const dispatch = useAppDispatch()
 
 	const handleMenu = () => {
-		dispatch(handleLeftDrawer())
+		dispatch(toggleDrawer("left"))
 	}
 
 	return (

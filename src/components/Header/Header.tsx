@@ -4,7 +4,7 @@ import { useResponsive } from "antd-style"
 import dayjs from "dayjs"
 import type { FC } from "react"
 import { useAppDispatch } from "src/hooks"
-import { handleRightDrawer } from "src/store/drawer/drawer.slice"
+import { toggleDrawer } from "src/store"
 import { langOptions } from "./lang.options"
 import MenuButton from "./MenuButton/MenuButton"
 import SearchInput from "./SearchInput/SearchInput"
@@ -16,7 +16,7 @@ const Header: FC = () => {
 	const dispatch = useAppDispatch()
 
 	const handleDrawer = () => {
-		dispatch(handleRightDrawer())
+		dispatch(toggleDrawer("right"))
 	}
 
 	return (

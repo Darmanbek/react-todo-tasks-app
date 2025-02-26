@@ -37,7 +37,7 @@ const App: React.FC = () => {
 				<Header />
 				<Routes>
 					<Route path={"/"} element={<SectionTasks />} />
-					<Route path={"/:categoryID"} element={<SectionTasks />} />
+					<Route path={"/:categoryId"} element={<SectionTasks />} />
 				</Routes>
 				<Footer />
 			</div>

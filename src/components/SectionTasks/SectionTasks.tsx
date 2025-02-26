@@ -3,17 +3,20 @@ import React, { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "src/hooks"
 import { getTasks } from "src/store/tasks/tasks.slice"
-import TaskItem from "./TaskItem/TaskItem"
+import { TaskItem } from "./TaskItem/TaskItem"
 
 const SectionTasks: React.FC = () => {
 	const { tasks, loading } = useAppSelector((state) => state.tasks)
 	const dispatch = useAppDispatch()
-	const { categoryID } = useParams()
+	const { categoryId = "" } = useParams()
 
 	useEffect(() => {
-		const category = categoryID || ""
-		dispatch(getTasks(category))
-	}, [dispatch, categoryID])
+		dispatch(
+			getTasks({
+				category: categoryId
+			})
+		)
+	}, [dispatch, categoryId])
 	return (
 		<section style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
 			<div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
@@ -44,19 +47,11 @@ const SectionTasks: React.FC = () => {
 							))
 						: tasks?.map?.((task, index) => (
 								<Col key={index} xs={24} md={12} xxl={8}>
-									<TaskItem
-										id={task.id}
-										completed={task.completed}
-										date={task.date}
-										description={task.description}
-										dir={task.dir}
-										important={task.important}
-										title={task.title}
-									/>
+									<TaskItem task={task} />
 								</Col>
 							))}
 				</Row>
-				{tasks.length === 0 && (
+				{!loading && tasks.length === 0 && (
 					<Card
 						bordered={false}
 						style={{

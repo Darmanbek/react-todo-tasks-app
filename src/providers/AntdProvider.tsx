@@ -8,14 +8,14 @@ import { useAppSelector } from "src/hooks"
 dayjs.locale("ru")
 
 const AntdProvider: FC<PropsWithChildren> = ({ children }) => {
-	const { mode } = useAppSelector((state) => state.mode)
+	const { isDarkMode } = useAppSelector((state) => state.mode)
 	return (
 		<ConfigProvider
 			locale={localeRU}
 			theme={{
-				algorithm: mode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+				algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
 				token: {
-					colorBgBase: mode ? "#0f172a" : undefined
+					colorBgBase: isDarkMode ? "#0f172a" : undefined
 				}
 			}}
 			typography={{

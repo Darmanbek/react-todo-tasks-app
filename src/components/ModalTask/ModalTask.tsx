@@ -3,20 +3,20 @@ import dayjs from "dayjs"
 import { type FC } from "react"
 import { useAppDispatch, useAppSelector } from "src/hooks"
 import type { ITaskState } from "src/model/task"
-import { handleModal } from "src/store/modal/modal.slice"
+import { toggleModal } from "src/store"
 import { addTask } from "src/store/tasks/tasks.slice"
 import { catalogData } from "./catalog.data"
 
 const { TextArea } = Input
 
 const ModalTask: FC = () => {
-	const { open } = useAppSelector((state) => state.modal)
+	const { isOpen } = useAppSelector((state) => state.modal)
 	const dispatch = useAppDispatch()
 	const [form] = Form.useForm<ITaskState>()
 
 	const onCloseModal = () => {
 		form.resetFields()
-		dispatch(handleModal())
+		if (isOpen) dispatch(toggleModal())
 	}
 
 	const onFinish: FormProps["onFinish"] = (values) => {
@@ -32,7 +32,7 @@ const ModalTask: FC = () => {
 			mask={true}
 			title={"Добавить задачу"}
 			centered={true}
-			open={open}
+			open={isOpen}
 			onCancel={onCloseModal}
 			footer={null}
 		>

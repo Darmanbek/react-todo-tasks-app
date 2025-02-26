@@ -1,36 +1,28 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
 export interface IDrawerState {
-	drawerLeftOpen: boolean
-	drawerRightOpen: boolean
+	left: boolean
+	right: boolean
 }
 
 const initialState: IDrawerState = {
-	drawerLeftOpen: true,
-	drawerRightOpen: true
+	left: true,
+	right: true
 }
 
 export const drawerSlice = createSlice({
 	name: "drawer",
 	initialState,
 	reducers: {
-		handleLeftDrawer: (state) => {
-			state.drawerLeftOpen = !state.drawerLeftOpen
+		toggleDrawer: (state, { payload }: PayloadAction<"left" | "right">) => {
+			state[payload] = !state[payload]
 		},
-		handleRightDrawer: (state) => {
-			state.drawerRightOpen = !state.drawerRightOpen
-		},
-
-		setLeftDrawer: (state, { payload }: PayloadAction<boolean>) => {
-			state.drawerLeftOpen = payload
-		},
-		setRightDrawer: (state, { payload }: PayloadAction<boolean>) => {
-			state.drawerRightOpen = payload
+		setDrawer: (state, { payload }: PayloadAction<{ side: "left" | "right"; open: boolean }>) => {
+			state[payload.side] = payload.open
 		}
 	}
 })
 
-export const { handleLeftDrawer, handleRightDrawer, setLeftDrawer, setRightDrawer } =
-	drawerSlice.actions
+export const { toggleDrawer, setDrawer } = drawerSlice.actions
 
 export default drawerSlice.reducer
