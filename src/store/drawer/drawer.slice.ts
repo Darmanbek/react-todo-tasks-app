@@ -3,13 +3,11 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 export interface IDrawerState {
 	drawerLeftOpen: boolean
 	drawerRightOpen: boolean
-	drawerMask: boolean
 }
 
 const initialState: IDrawerState = {
 	drawerLeftOpen: true,
-	drawerRightOpen: true,
-	drawerMask: false
+	drawerRightOpen: true
 }
 
 export const drawerSlice = createSlice({
@@ -22,28 +20,17 @@ export const drawerSlice = createSlice({
 		handleRightDrawer: (state) => {
 			state.drawerRightOpen = !state.drawerRightOpen
 		},
-		handleDrawerMask: (state) => {
-			state.drawerMask = !state.drawerMask
-		},
+
 		setLeftDrawer: (state, { payload }: PayloadAction<boolean>) => {
 			state.drawerLeftOpen = payload
 		},
 		setRightDrawer: (state, { payload }: PayloadAction<boolean>) => {
 			state.drawerRightOpen = payload
-		},
-		setDrawerMask: (state, { payload }: PayloadAction<boolean>) => {
-			state.drawerMask = payload
 		}
 	}
 })
 
-export const {
-	handleLeftDrawer,
-	handleRightDrawer,
-	handleDrawerMask,
-	setLeftDrawer,
-	setRightDrawer,
-	setDrawerMask
-} = drawerSlice.actions
+export const { handleLeftDrawer, handleRightDrawer, setLeftDrawer, setRightDrawer } =
+	drawerSlice.actions
 
 export default drawerSlice.reducer

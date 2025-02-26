@@ -1,19 +1,14 @@
 import { SearchOutlined } from "@ant-design/icons"
-import { Input } from "antd"
+import { Input, type InputProps } from "antd"
 import React from "react"
 
-interface SearchInputProps {
+interface SearchInputProps extends InputProps {
 	className?: string
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ className = "" }) => {
+const SearchInput: React.FC<SearchInputProps> = (props) => {
 	return (
-		<Input
-			size={"large"}
-			className={className}
-			suffix={<SearchOutlined />}
-			placeholder={"Искать задачу"}
-		/>
+		<Input size={"large"} suffix={<SearchOutlined />} placeholder={"Искать задачу"} {...props} />
 	)
 }
 

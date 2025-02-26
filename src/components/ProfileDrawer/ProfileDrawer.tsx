@@ -1,50 +1,41 @@
+import { MoonFilled, SunFilled, UserOutlined } from "@ant-design/icons"
 import { Avatar, Button, Drawer, Flex, Progress, Switch, Typography } from "antd"
-import React, { useCallback, useEffect } from "react"
-import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs"
-import { FaUserAlt } from "react-icons/fa"
+import { useResponsive } from "antd-style"
+import React, { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "src/hooks"
-import { setDrawerMask, setRightDrawer } from "src/store/drawer/drawer.slice"
+import { setRightDrawer } from "src/store/drawer/drawer.slice"
 import { handleMode } from "src/store/mode/mode.slice"
 
 const ProfileDrawer: React.FC = () => {
+	const { xl } = useResponsive()
 	// const { mode } = useAppSelector((state) => state.mode)
-	const { drawerRightOpen, drawerMask } = useAppSelector((state) => state.drawer)
+	const { drawerRightOpen } = useAppSelector((state) => state.drawer)
+	const { mode } = useAppSelector((state) => state.mode)
 	const dispatch = useAppDispatch()
 
 	const switchChange = () => {
 		dispatch(handleMode())
 	}
 
-	const showDrawer = useCallback(() => {
-		dispatch(setRightDrawer(true))
-		dispatch(setDrawerMask(false))
-	}, [dispatch])
-
-	const onClose = useCallback(() => {
+	const onClose = () => {
 		dispatch(setRightDrawer(false))
-		dispatch(setDrawerMask(true))
-	}, [dispatch])
-
-	const handleDrawer = () => {
-		const width = document.body.clientWidth
-		if (width < 1280) {
-			onClose()
-		} else {
-			showDrawer()
-		}
 	}
 
-	window.addEventListener("resize", handleDrawer)
-
-	useEffect(handleDrawer, [onClose, showDrawer])
+	useEffect(() => {
+		if (xl) {
+			dispatch(setRightDrawer(true))
+		} else {
+			dispatch(setRightDrawer(false))
+		}
+	}, [dispatch, xl])
 	return (
 		<Drawer
-			mask={drawerMask}
+			mask={!xl}
 			width={256}
 			placement={"right"}
 			closable={false}
 			onClose={onClose}
-			open={drawerRightOpen}
+			open={!xl ? xl || drawerRightOpen : drawerRightOpen}
 			key={"right"}
 		>
 			<Flex vertical={true} justify={"space-between"} style={{ width: "100%", height: "100%" }}>
@@ -56,7 +47,9 @@ const ProfileDrawer: React.FC = () => {
 						>
 							Привет, Пользователь!
 						</Typography.Title>
-						<Avatar icon={<FaUserAlt />} />
+						<div>
+							<Avatar icon={<UserOutlined />} />
+						</div>
 					</Flex>
 					<Flex align={"center"} justify={"space-between"} gap={12} style={{ paddingTop: 20 }}>
 						<Typography.Title
@@ -67,8 +60,9 @@ const ProfileDrawer: React.FC = () => {
 						</Typography.Title>
 						<Switch
 							className={""}
-							checkedChildren={<BsFillMoonStarsFill />}
-							unCheckedChildren={<BsFillSunFill />}
+							checked={mode}
+							checkedChildren={<MoonFilled />}
+							unCheckedChildren={<SunFilled />}
 							onChange={switchChange}
 						/>
 					</Flex>
@@ -80,8 +74,8 @@ const ProfileDrawer: React.FC = () => {
 								fontSize: 14
 							}}
 						>
-							<span>Все задачи</span>
-							<span>1/3</span>
+							<Typography.Text>Все задачи</Typography.Text>
+							<Typography.Text>1/3</Typography.Text>
 						</Flex>
 						<div className={"profile-drawer__top-status__progress"}>
 							<Progress percent={33} showInfo={false} />

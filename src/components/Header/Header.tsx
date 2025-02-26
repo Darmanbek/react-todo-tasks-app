@@ -1,15 +1,17 @@
-import { Avatar, Badge, Popover, Select } from "antd"
+import { UserOutlined } from "@ant-design/icons"
+import { Avatar, Flex, Select, Typography } from "antd"
+import { useResponsive } from "antd-style"
 import type { FC } from "react"
-import { BsFillBellFill } from "react-icons/bs"
-import { FaUserAlt } from "react-icons/fa"
 import { useAppDispatch } from "src/hooks"
 import { handleRightDrawer } from "src/store/drawer/drawer.slice"
 import { langOptions } from "./lang.options"
 import MenuButton from "./MenuButton/MenuButton"
 import SearchInput from "./SearchInput/SearchInput"
-import { TaskList } from "./TaskList/TaskList"
+import { TaskNotification } from "./TaskNotification/TaskNotification"
 
 const Header: FC = () => {
+	const { xl } = useResponsive()
+
 	const dispatch = useAppDispatch()
 
 	const handleDrawer = () => {
@@ -17,43 +19,57 @@ const Header: FC = () => {
 	}
 
 	return (
-		<header className={"flex flex-col justify-between gap-3"}>
-			<div className={"flex justify-between items-center"}>
-				<SearchInput className={"w-80 inline-flex max-xl:hidden"} />
-				<MenuButton />
-				<div className={"text-center"}>
-					<h4
-						className={
-							"text-light-text dark:text-dark-text font-bold max-xl:text-xl max-lg:text-lg max-sm:text-sm xl:hidden"
-						}
-					>
-						СПИСОК-ДЕЛ
-					</h4>
-					<p
-						className={` text-center text-light-text dark:text-dark-text max-xl:text-xl max-lg:text-lg max-sm:text-sm`}
-					>
-						2024, Mar 18
-					</p>
+		<header
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				justifyContent: "space-between",
+				gap: 12
+			}}
+		>
+			<div
+				style={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-between"
+				}}
+				className={"flex justify-between items-center"}
+			>
+				{xl ? (
+					<SearchInput
+						style={{
+							maxWidth: 256,
+							display: "inline-flex"
+						}}
+					/>
+				) : (
+					<MenuButton />
+				)}
+				<div style={{ textAlign: "center" }}>
+					{!xl && (
+						<Typography.Title
+							level={4}
+							style={{
+								fontWeight: 700,
+								fontSize: 16
+							}}
+							className={"font-bold max-xl:text-xl max-lg:text-lg max-sm:text-sm xl:hidden"}
+						>
+							СПИСОК-ДЕЛ
+						</Typography.Title>
+					)}
+					<Typography.Text style={{ fontSize: xl ? 18 : 16 }}>2024, Mar 18</Typography.Text>
 				</div>
-				<div className={"flex justify-center items-center gap-5"}>
-					<Popover
-						content={<TaskList />}
-						trigger={"click"}
-						className={"cursor-pointer"}
-						placement={"bottomRight"}
-					>
-						<Badge count={3} size={"small"}>
-							<BsFillBellFill fontSize={25} className={"text-light-violet"} />
-						</Badge>
-					</Popover>
+				<Flex justify={"center"} align={"center"} gap={20}>
+					<TaskNotification />
 
 					<Select size={"large"} defaultValue={"RU"} options={langOptions} />
-					<button onClick={handleDrawer} className={"xl:hidden"}>
-						<Avatar icon={<FaUserAlt />} />
-					</button>
-				</div>
+					{!xl && (
+						<Avatar icon={<UserOutlined />} onClick={handleDrawer} style={{ cursor: "pointer" }} />
+					)}
+				</Flex>
 			</div>
-			<SearchInput className={"hidden max-xl:inline-flex"} />
+			{!xl && <SearchInput className={"hidden max-xl:inline-flex"} />}
 		</header>
 	)
 }

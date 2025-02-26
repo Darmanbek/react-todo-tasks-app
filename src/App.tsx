@@ -1,12 +1,24 @@
 import { Layout } from "antd"
-import { useResponsive } from "antd-style"
-import React from "react"
+import { useResponsive, useThemeMode } from "antd-style"
+import React, { useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
-import { Footer, Header, MenuDrawer, ModalTask, ProfileDrawer, SectionTasks } from "./components"
+import { Footer, Header, SectionTasks } from "src/components"
+import { useAppDispatch } from "src/hooks"
+import { setMode } from "src/store/mode/mode.slice"
+import { MenuDrawer, ModalTask, ProfileDrawer } from "./components"
 
 const App: React.FC = () => {
-	const { lg } = useResponsive()
+	const { xl } = useResponsive()
+	const dispatch = useAppDispatch()
+	const { browserPrefers } = useThemeMode()
 
+	useEffect(() => {
+		if (browserPrefers === "dark") {
+			dispatch(setMode(true))
+		} else {
+			dispatch(setMode(false))
+		}
+	}, [browserPrefers, dispatch])
 	return (
 		<Layout>
 			<MenuDrawer />
@@ -16,9 +28,9 @@ const App: React.FC = () => {
 					display: "flex",
 					flexDirection: "column",
 					minHeight: "100vh",
-					transition: "all .3s",
+					transition: "margin .3s",
 					padding: 20,
-					marginInline: lg ? 256 : 0
+					marginInline: xl ? 256 : 0
 				}}
 			>
 				<Header />

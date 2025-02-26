@@ -1,9 +1,6 @@
-import { Badge, Card, Flex, Space, Typography } from "antd"
+import { CalendarOutlined, DeleteFilled, EditFilled, StarFilled } from "@ant-design/icons"
+import { Badge, Card, Flex, Tag, Typography } from "antd"
 import type { FC } from "react"
-import { BiSolidTrashAlt } from "react-icons/bi"
-import { GoStarFill } from "react-icons/go"
-import { IoMdCalendar } from "react-icons/io"
-import { MdEdit } from "react-icons/md"
 import type { ITaskState } from "src/model/task"
 
 const TaskItem: FC<ITaskState> = ({ title, description, date, dir, completed }) => {
@@ -11,26 +8,25 @@ const TaskItem: FC<ITaskState> = ({ title, description, date, dir, completed }) 
 		<Badge.Ribbon text={dir}>
 			<Card
 				title={title}
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					gap: 20
+				styles={{
+					actions: {
+						paddingInlineStart: 12
+					}
 				}}
 				actions={[
-					<button key={"check"}>
-						<span className={""}>{completed ? "Выполненный" : "Невыполненный"}</span>
-					</button>,
-					<GoStarFill key={"favorite"} />,
-					<BiSolidTrashAlt key={"delete"} />,
-					<MdEdit key={"edit"} />
+					<Tag key={"check"} color={completed ? "green-inverse" : "orange-inverse"}>
+						{completed ? "Выполненный" : "Невыполненный"}
+					</Tag>,
+					<StarFilled style={{ fontSize: 20 }} key={"favorite"} />,
+					<DeleteFilled style={{ fontSize: 20 }} key={"delete"} />,
+					<EditFilled style={{ fontSize: 20 }} key={"edit"} />
 				]}
 			>
 				<Typography.Paragraph>{description}</Typography.Paragraph>
-				<Flex>
-					<Space>
-						<IoMdCalendar />
-						<span>{date}</span>
-					</Space>
+				<Flex style={{ marginTop: 20 }}>
+					<Tag icon={<CalendarOutlined />} style={{ fontSize: 14, paddingBlock: 4 }}>
+						{date}
+					</Tag>
 				</Flex>
 			</Card>
 		</Badge.Ribbon>

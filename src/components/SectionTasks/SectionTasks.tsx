@@ -1,3 +1,4 @@
+import { Col, Row, Typography } from "antd"
 import React, { useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "src/hooks"
@@ -14,31 +15,32 @@ const SectionTasks: React.FC = () => {
 		dispatch(getTasks(category))
 	}, [dispatch, categoryID])
 	return (
-		<section className={"section-tasks"}>
-			<div className={"tasks-inner"}>
+		<section>
+			<div>
 				<div
-					className={
-						"tasks-inner__head py-4 text-light-text-v2 dark:text-dark-text-v2 text-2xl max-lg:text-xl font-medium"
-					}
+					style={{
+						padding: "16px 0"
+					}}
 				>
-					<h2>Все задачи ({tasks.length} задача)</h2>
+					<Typography.Title level={2} style={{ fontSize: 20, fontWeight: 500 }}>
+						Все задачи ({tasks.length} задача)
+					</Typography.Title>
 				</div>
-				<div
-					className={"tasks-inner__block grid gap-5 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3"}
-				>
-					{tasks?.map?.((task) => (
-						<TaskItem
-							key={task.id}
-							id={task.id}
-							completed={task.completed}
-							date={task.date}
-							description={task.description}
-							dir={task.dir}
-							important={task.important}
-							title={task.title}
-						/>
+				<Row gutter={20} style={{ rowGap: 20, marginBottom: 20 }}>
+					{tasks?.map?.((task, index) => (
+						<Col key={index} xs={24} md={12} xxl={8}>
+							<TaskItem
+								id={task.id}
+								completed={task.completed}
+								date={task.date}
+								description={task.description}
+								dir={task.dir}
+								important={task.important}
+								title={task.title}
+							/>
+						</Col>
 					))}
-				</div>
+				</Row>
 			</div>
 		</section>
 	)

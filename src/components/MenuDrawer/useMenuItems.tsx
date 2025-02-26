@@ -1,8 +1,11 @@
+import {
+	BellOutlined,
+	CalendarOutlined,
+	CarryOutOutlined,
+	CloseSquareOutlined,
+	ProductOutlined
+} from "@ant-design/icons"
 import type { MenuProps } from "antd"
-import { BsClipboardCheckFill, BsUiRadiosGrid } from "react-icons/bs"
-import { MdOutlineNotificationImportant } from "react-icons/md"
-import { RiCalendarEventFill } from "react-icons/ri"
-import { TbNotesOff } from "react-icons/tb"
 import { useNavigate } from "react-router-dom"
 
 type MenuItem = Required<MenuProps>["items"][number]
@@ -13,7 +16,7 @@ export const useMenuItems = () => {
 	const items: MenuItem[] = [
 		{
 			key: "/",
-			icon: <BsUiRadiosGrid />,
+			icon: <ProductOutlined />,
 			label: "Все задачи",
 			onClick: () => {
 				navigate("/")
@@ -21,7 +24,7 @@ export const useMenuItems = () => {
 		},
 		{
 			key: "/today",
-			icon: <RiCalendarEventFill />,
+			icon: <CalendarOutlined />,
 			label: "Сегодняшние задачи",
 			onClick: () => {
 				navigate("/today")
@@ -29,7 +32,7 @@ export const useMenuItems = () => {
 		},
 		{
 			key: "/important",
-			icon: <MdOutlineNotificationImportant />,
+			icon: <BellOutlined />,
 			label: "Важные задачи",
 			onClick: () => {
 				navigate("/important")
@@ -37,7 +40,7 @@ export const useMenuItems = () => {
 		},
 		{
 			key: "/completed",
-			icon: <BsClipboardCheckFill />,
+			icon: <CarryOutOutlined />,
 			label: "Выполненные задачи",
 			onClick: () => {
 				navigate("/completed")
@@ -45,7 +48,7 @@ export const useMenuItems = () => {
 		},
 		{
 			key: "/uncompleted",
-			icon: <TbNotesOff />,
+			icon: <CloseSquareOutlined />,
 			label: "Незавершенные задачи",
 			onClick: () => {
 				navigate("/uncompleted")
@@ -53,5 +56,5 @@ export const useMenuItems = () => {
 		}
 	]
 
-	return { items }
+	return items
 }
