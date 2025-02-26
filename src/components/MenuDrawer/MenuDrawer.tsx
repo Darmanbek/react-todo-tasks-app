@@ -1,6 +1,6 @@
 import { Button, Drawer, Flex, Menu, Typography } from "antd"
 import { useResponsive } from "antd-style"
-import React from "react"
+import React, { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "src/hooks"
 import { setLeftDrawer } from "src/store/drawer/drawer.slice"
 import { handleModal } from "src/store/modal/modal.slice"
@@ -28,6 +28,13 @@ const MenuDrawer: React.FC = () => {
 		dispatch(handleModal())
 	}
 
+	useEffect(() => {
+		if (xl) {
+			dispatch(setLeftDrawer(true))
+		} else {
+			dispatch(setLeftDrawer(false))
+		}
+	}, [dispatch, xl])
 	return (
 		<Drawer
 			mask={!xl}

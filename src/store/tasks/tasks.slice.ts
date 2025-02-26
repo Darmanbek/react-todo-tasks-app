@@ -72,14 +72,14 @@ export const addTask = createAsyncThunk(
 export interface ITasksState {
 	tasks: ITaskState[]
 	category: string
-	loading: string
+	loading: boolean
 	error: string | null
 }
 
 const initialState: ITasksState = {
 	tasks: [],
 	category: "/",
-	loading: "",
+	loading: false,
 	error: null
 }
 
@@ -96,19 +96,19 @@ export const tasksSlice = createSlice({
 	},
 	extraReducers: (builders: ActionReducerMapBuilder<ITasksState>) => {
 		builders.addCase(getTasks.pending, (state: ITasksState) => {
-			state.loading = "pending"
+			state.loading = true
 			state.error = null
 		}),
 			builders.addCase(
 				getTasks.fulfilled,
 				(state: ITasksState, { payload }: PayloadAction<ITaskState[]>) => {
 					state.tasks = payload
-					state.loading = "fulfilled"
+					state.loading = false
 					state.error = null
 				}
 			),
 			builders.addCase(getTasks.rejected, (state: ITasksState, { payload }: PayloadAction<any>) => {
-				state.loading = "rejected"
+				state.loading = false
 				state.error = payload
 			})
 	}

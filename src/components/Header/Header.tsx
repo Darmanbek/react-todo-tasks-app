@@ -1,6 +1,7 @@
 import { UserOutlined } from "@ant-design/icons"
 import { Avatar, Flex, Select, Typography } from "antd"
 import { useResponsive } from "antd-style"
+import dayjs from "dayjs"
 import type { FC } from "react"
 import { useAppDispatch } from "src/hooks"
 import { handleRightDrawer } from "src/store/drawer/drawer.slice"
@@ -38,7 +39,7 @@ const Header: FC = () => {
 				{xl ? (
 					<SearchInput
 						style={{
-							maxWidth: 256,
+							maxWidth: 300,
 							display: "inline-flex"
 						}}
 					/>
@@ -58,7 +59,9 @@ const Header: FC = () => {
 							СПИСОК-ДЕЛ
 						</Typography.Title>
 					)}
-					<Typography.Text style={{ fontSize: xl ? 18 : 16 }}>2024, Mar 18</Typography.Text>
+					<Typography.Text style={{ fontSize: xl ? 18 : 16, textTransform: "capitalize" }}>
+						{dayjs().format("YYYY, MMM DD")}
+					</Typography.Text>
 				</div>
 				<Flex justify={"center"} align={"center"} gap={20}>
 					<TaskNotification />

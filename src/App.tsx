@@ -29,6 +29,7 @@ const App: React.FC = () => {
 					flexDirection: "column",
 					minHeight: "100vh",
 					transition: "margin .3s",
+					gap: 20,
 					padding: 20,
 					marginInline: xl ? 256 : 0
 				}}

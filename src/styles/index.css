@@ -9,8 +9,14 @@
 	margin: 0;
 	box-sizing: border-box;
 	scroll-behavior: smooth;
+	scrollbar-color: #eaeaea transparent;
 	scrollbar-width: thin;
 }
+
+.ant-ribbon-wrapper {
+	height: 100%;
+}
+
 
 h1,
 h2,

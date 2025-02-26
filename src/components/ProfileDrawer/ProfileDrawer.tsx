@@ -11,6 +11,7 @@ const ProfileDrawer: React.FC = () => {
 	// const { mode } = useAppSelector((state) => state.mode)
 	const { drawerRightOpen } = useAppSelector((state) => state.drawer)
 	const { mode } = useAppSelector((state) => state.mode)
+	const { tasks } = useAppSelector((state) => state.tasks)
 	const dispatch = useAppDispatch()
 
 	const switchChange = () => {
@@ -39,7 +40,7 @@ const ProfileDrawer: React.FC = () => {
 			key={"right"}
 		>
 			<Flex vertical={true} justify={"space-between"} style={{ width: "100%", height: "100%" }}>
-				<Flex vertical={true} gap={8}>
+				<Flex vertical={true} gap={24}>
 					<Flex justify={"center"} align={"center"} gap={12}>
 						<Typography.Title
 							level={3}
@@ -66,7 +67,7 @@ const ProfileDrawer: React.FC = () => {
 							onChange={switchChange}
 						/>
 					</Flex>
-					<Flex vertical={true} gap={16}>
+					<Flex vertical={true} gap={8}>
 						<Flex
 							justify={"space-between"}
 							align={"center"}
@@ -75,10 +76,12 @@ const ProfileDrawer: React.FC = () => {
 							}}
 						>
 							<Typography.Text>Все задачи</Typography.Text>
-							<Typography.Text>1/3</Typography.Text>
+							<Typography.Text>
+								{tasks?.filter((e) => e.completed)?.length}/{tasks.length}
+							</Typography.Text>
 						</Flex>
 						<div className={"profile-drawer__top-status__progress"}>
-							<Progress percent={33} showInfo={false} />
+							<Progress percent={100 / (tasks.length || 1)} showInfo={false} />
 						</div>
 					</Flex>
 				</Flex>
