@@ -3,7 +3,7 @@ import { useResponsive, useThemeMode } from "antd-style"
 import React, { useEffect } from "react"
 import { Route, Routes } from "react-router-dom"
 import { Footer, Header, SectionTasks } from "src/components"
-import { useAppDispatch } from "src/hooks"
+import { useAppDispatch } from "src/store/hooks"
 import { setMode } from "src/store/mode/mode.slice"
 import { MenuDrawer, ModalTask, ProfileDrawer } from "./components"
 

@@ -24,5 +24,4 @@ export const drawerSlice = createSlice({
 })
 
 export const { toggleDrawer, setDrawer } = drawerSlice.actions
-
 export default drawerSlice.reducer

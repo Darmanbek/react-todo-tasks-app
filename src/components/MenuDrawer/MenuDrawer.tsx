@@ -1,8 +1,9 @@
 import { Button, Drawer, Flex, Menu, Typography } from "antd"
 import { useResponsive } from "antd-style"
 import React, { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "src/hooks"
-import { setDrawer, toggleModal } from "src/store"
+import { setDrawer } from "src/store/drawer/drawer.slice"
+import { useAppDispatch, useAppSelector } from "src/store/hooks"
+import { toggleModal } from "src/store/modal/modal.slice"
 import { useMenuItems } from "./useMenuItems"
 
 const MenuDrawer: React.FC = () => {
@@ -52,6 +53,7 @@ const MenuDrawer: React.FC = () => {
 	return (
 		<Drawer
 			mask={!xl}
+			keyboard={!xl}
 			width={256}
 			placement={"left"}
 			closable={false}

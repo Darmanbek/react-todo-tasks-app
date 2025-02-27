@@ -1,9 +1,9 @@
 import { Flex } from "antd"
 import type { FC } from "react"
-import type { ITaskState } from "src/model/task"
+import type { ITask } from "src/model/task"
 
 interface TaskNotificationListProps {
-	tasks: ITaskState[]
+	tasks: ITask[]
 }
 
 const TaskNotificationList: FC<TaskNotificationListProps> = ({ tasks }) => {

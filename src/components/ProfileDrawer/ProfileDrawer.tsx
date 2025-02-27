@@ -1,13 +1,13 @@
 import { MoonFilled, SunFilled, UserOutlined } from "@ant-design/icons"
-import { Avatar, Button, Drawer, Flex, Progress, Switch, Typography } from "antd"
+import { Avatar, Button, Drawer, Flex, Progress, Space, Switch, Typography } from "antd"
 import { useResponsive } from "antd-style"
 import React, { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "src/hooks"
-import { setDrawer, toggleMode } from "src/store"
+import { setDrawer } from "src/store/drawer/drawer.slice"
+import { useAppDispatch, useAppSelector } from "src/store/hooks"
+import { toggleMode } from "src/store/mode/mode.slice"
 
 const ProfileDrawer: React.FC = () => {
 	const { xl } = useResponsive()
-	// const { mode } = useAppSelector((state) => state.mode)
 	const { right } = useAppSelector((state) => state.drawer)
 	const { isDarkMode } = useAppSelector((state) => state.mode)
 	const { tasks } = useAppSelector((state) => state.tasks)
@@ -46,6 +46,7 @@ const ProfileDrawer: React.FC = () => {
 	return (
 		<Drawer
 			mask={!xl}
+			keyboard={!xl}
 			width={256}
 			placement={"right"}
 			closable={false}
@@ -98,10 +99,14 @@ const ProfileDrawer: React.FC = () => {
 						</div>
 					</Flex>
 				</Flex>
-				<Button type={"primary"}>Сделано с ❤️ автором</Button>
+				<Button type={"primary"}>
+					<Space size={2} align={"center"}>
+						{"Сделано с"} <img src={"/react.svg"} width={16} alt={"❤️"} /> {"автором"}
+					</Space>
+				</Button>
 			</Flex>
 		</Drawer>
 	)
 }
 
-export default ProfileDrawer
+export { ProfileDrawer }

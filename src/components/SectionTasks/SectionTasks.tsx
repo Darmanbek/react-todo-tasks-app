@@ -1,22 +1,38 @@
 import { Card, Col, Result, Row, Skeleton, Typography } from "antd"
+import dayjs from "dayjs"
 import React, { useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "src/hooks"
-import { getTasks } from "src/store/tasks/tasks.slice"
+import type { ITask } from "src/model/task"
+import { useAppDispatch, useAppSelector } from "src/store/hooks"
+import { getTasks } from "src/store/tasks/tasks.thunks"
 import { TaskItem } from "./TaskItem/TaskItem"
+
+const categoryFilter = (task: ITask, category?: string) => {
+	switch (category) {
+		case "today":
+			return task.date === dayjs().format("YYYY-MM-DD")
+		case "important":
+			return task.important
+		case "completed":
+			return task.completed
+		case "uncompleted":
+			return !task.completed
+		default:
+			return true
+	}
+}
 
 const SectionTasks: React.FC = () => {
 	const { tasks, loading } = useAppSelector((state) => state.tasks)
+	const { search } = useAppSelector((state) => state.search)
 	const dispatch = useAppDispatch()
 	const { categoryId = "" } = useParams()
 
+	const filteredTasks = tasks.filter((task) => categoryFilter(task, categoryId))
+
 	useEffect(() => {
-		dispatch(
-			getTasks({
-				category: categoryId
-			})
-		)
-	}, [dispatch, categoryId])
+		dispatch(getTasks({ search }))
+	}, [dispatch, search])
 	return (
 		<section style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
 			<div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
@@ -45,13 +61,13 @@ const SectionTasks: React.FC = () => {
 									/>
 								</Col>
 							))
-						: tasks?.map?.((task, index) => (
+						: filteredTasks?.map?.((task, index) => (
 								<Col key={index} xs={24} md={12} xxl={8}>
 									<TaskItem task={task} />
 								</Col>
 							))}
 				</Row>
-				{!loading && tasks.length === 0 && (
+				{!loading && filteredTasks.length === 0 && (
 					<Card
 						bordered={false}
 						style={{
@@ -71,4 +87,4 @@ const SectionTasks: React.FC = () => {
 	)
 }
 
-export default SectionTasks
+export { SectionTasks }

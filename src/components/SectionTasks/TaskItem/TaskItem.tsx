@@ -8,10 +8,10 @@ import {
 } from "@ant-design/icons"
 import { Badge, Card, Flex, Switch, Tag, Typography } from "antd"
 import type { FC } from "react"
-import type { ITaskState } from "src/model/task"
+import type { ITask } from "src/model/task"
 
 interface TaskItemProps {
-	task: ITaskState
+	task: ITask
 }
 
 const TaskItem: FC<TaskItemProps> = ({ task: { title, description, date, dir, completed } }) => {
@@ -50,7 +50,7 @@ const TaskItem: FC<TaskItemProps> = ({ task: { title, description, date, dir, co
 				<Flex style={{ marginTop: 20 }}>
 					<Tag
 						icon={<CalendarOutlined />}
-						color={"gold-inverse"}
+						color={completed ? "green-inverse" : "gold-inverse"}
 						style={{ fontSize: 14, paddingBlock: 4 }}
 					>
 						{date}

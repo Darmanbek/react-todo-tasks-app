@@ -3,12 +3,13 @@ import localeRU from "antd/locale/ru_RU"
 import dayjs from "dayjs"
 import "dayjs/locale/ru"
 import { type FC, type PropsWithChildren } from "react"
-import { useAppSelector } from "src/hooks"
+import { useAppSelector } from "src/store/hooks"
 
 dayjs.locale("ru")
 
 const AntdProvider: FC<PropsWithChildren> = ({ children }) => {
 	const { isDarkMode } = useAppSelector((state) => state.mode)
+
 	return (
 		<ConfigProvider
 			locale={localeRU}

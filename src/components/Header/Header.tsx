@@ -3,9 +3,9 @@ import { Avatar, Flex, Select, Typography } from "antd"
 import { useResponsive } from "antd-style"
 import dayjs from "dayjs"
 import type { FC } from "react"
-import { useAppDispatch } from "src/hooks"
-import { toggleDrawer } from "src/store"
-import { langOptions } from "./lang.options"
+import { langData } from "src/data/lang.data"
+import { toggleDrawer } from "src/store/drawer/drawer.slice"
+import { useAppDispatch } from "src/store/hooks"
 import MenuButton from "./MenuButton/MenuButton"
 import SearchInput from "./SearchInput/SearchInput"
 import { TaskNotification } from "./TaskNotification/TaskNotification"
@@ -66,7 +66,7 @@ const Header: FC = () => {
 				<Flex justify={"center"} align={"center"} gap={20}>
 					<TaskNotification />
 
-					<Select size={"large"} defaultValue={"RU"} options={langOptions} />
+					<Select size={"large"} defaultValue={"RU"} options={langData} />
 					{!xl && (
 						<Avatar icon={<UserOutlined />} onClick={handleDrawer} style={{ cursor: "pointer" }} />
 					)}
@@ -77,4 +77,4 @@ const Header: FC = () => {
 	)
 }
 
-export default Header
+export { Header }

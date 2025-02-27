@@ -1,18 +1,18 @@
 import { Button, Checkbox, DatePicker, Form, type FormProps, Input, Modal, Select, Tag } from "antd"
 import dayjs from "dayjs"
 import { type FC } from "react"
-import { useAppDispatch, useAppSelector } from "src/hooks"
-import type { ITaskState } from "src/model/task"
-import { toggleModal } from "src/store"
-import { addTask } from "src/store/tasks/tasks.slice"
-import { catalogData } from "./catalog.data"
+import { catalogData } from "src/data/catalog.data"
+import type { ITask } from "src/model/task"
+import { useAppDispatch, useAppSelector } from "src/store/hooks"
+import { toggleModal } from "src/store/modal/modal.slice"
+import { addTask } from "src/store/tasks/tasks.thunks"
 
 const { TextArea } = Input
 
 const ModalTask: FC = () => {
 	const { isOpen } = useAppSelector((state) => state.modal)
 	const dispatch = useAppDispatch()
-	const [form] = Form.useForm<ITaskState>()
+	const [form] = Form.useForm<ITask>()
 
 	const onCloseModal = () => {
 		form.resetFields()
@@ -50,7 +50,7 @@ const ModalTask: FC = () => {
 					</>
 				)}
 			>
-				<Form.Item<ITaskState>
+				<Form.Item<ITask>
 					label={"Заголовок"}
 					name={"title"}
 					rules={[
@@ -62,7 +62,7 @@ const ModalTask: FC = () => {
 				>
 					<Input placeholder={"например, исследование для теста"} />
 				</Form.Item>
-				<Form.Item<ITaskState>
+				<Form.Item<ITask>
 					label={"Дата"}
 					name={"date"}
 					rules={[
@@ -79,7 +79,7 @@ const ModalTask: FC = () => {
 						}}
 					/>
 				</Form.Item>
-				<Form.Item<ITaskState>
+				<Form.Item<ITask>
 					label={<span className={"text-light-modal-text dark:text-dark-text"}>Описание</span>}
 					name={"description"}
 					rules={[
@@ -91,7 +91,7 @@ const ModalTask: FC = () => {
 				>
 					<TextArea placeholder={"например, описание исследования для теста"} />
 				</Form.Item>
-				<Form.Item<ITaskState>
+				<Form.Item<ITask>
 					label={"Каталог"}
 					name={"dir"}
 					rules={[
@@ -103,10 +103,10 @@ const ModalTask: FC = () => {
 				>
 					<Select placeholder={"Выберите каталог"} options={catalogData} />
 				</Form.Item>
-				<Form.Item<ITaskState> name={"important"} valuePropName={"checked"} initialValue={false}>
+				<Form.Item<ITask> name={"important"} valuePropName={"checked"} initialValue={false}>
 					<Checkbox>Отметить как важное</Checkbox>
 				</Form.Item>
-				<Form.Item<ITaskState> name={"completed"} valuePropName={"checked"} initialValue={false}>
+				<Form.Item<ITask> name={"completed"} valuePropName={"checked"} initialValue={false}>
 					<Checkbox>Отметить как выполненное</Checkbox>
 				</Form.Item>
 				<Form.Item>
@@ -119,4 +119,4 @@ const ModalTask: FC = () => {
 	)
 }
 
-export default ModalTask
+export { ModalTask }
