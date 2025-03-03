@@ -6,7 +6,7 @@
 	margin: 0;
 	box-sizing: border-box;
 	scroll-behavior: smooth;
-	scrollbar-color: #eaeaea transparent;
+
 	scrollbar-width: thin;
 }
 
@@ -36,5 +36,4 @@ button {
 body {
 	font-family: "Montserrat", sans-serif;
 	min-height: 100vh;
-	transition: all .3s;
 }
