@@ -1,11 +1,11 @@
 import { BellFilled } from "@ant-design/icons"
 import { Badge, Popover, theme } from "antd"
 import { type FC } from "react"
-import { useAppSelector } from "src/store/hooks"
+import { useGetTasksQuery } from "src/store/endpoints"
 import { TaskNotificationList } from "./TaskNotificationList"
 
 const TaskNotification: FC = () => {
-	const { tasks } = useAppSelector((state) => state.tasks)
+	const { data: tasks = [] } = useGetTasksQuery({})
 
 	const { token } = theme.useToken()
 	return (
