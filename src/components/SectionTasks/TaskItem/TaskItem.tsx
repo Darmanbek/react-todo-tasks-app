@@ -6,7 +6,7 @@ import {
 	EditFilled,
 	StarFilled
 } from "@ant-design/icons"
-import { Badge, Card, Flex, Switch, Tag, Typography } from "antd"
+import { Badge, Card, Flex, Popconfirm, Switch, Tag, theme, Typography } from "antd"
 import type { FC } from "react"
 import type { ITask } from "src/model/task"
 
@@ -14,11 +14,12 @@ interface TaskItemProps {
 	task: ITask
 }
 
-const TaskItem: FC<TaskItemProps> = ({ task: { title, description, date, dir, completed } }) => {
+const TaskItem: FC<TaskItemProps> = ({ task }) => {
+	const { token } = theme.useToken()
 	return (
-		<Badge.Ribbon text={dir}>
+		<Badge.Ribbon text={task.dir}>
 			<Card
-				title={title}
+				title={task.title}
 				style={{
 					height: "100%",
 					display: "flex",
@@ -37,23 +38,34 @@ const TaskItem: FC<TaskItemProps> = ({ task: { title, description, date, dir, co
 				actions={[
 					<Switch
 						key={"check"}
-						defaultChecked={completed}
+						defaultChecked={task.completed}
 						checkedChildren={<CheckOutlined />}
 						unCheckedChildren={<CloseOutlined />}
 					/>,
-					<StarFilled style={{ fontSize: 20 }} key={"favorite"} />,
-					<DeleteFilled style={{ fontSize: 20 }} key={"delete"} />,
+					<StarFilled
+						style={{ fontSize: 20, color: task.important ? token.red : "inherit" }}
+						key={"favorite"}
+					/>,
+					<Popconfirm
+						title={`Удалить ${task.title?.toLowerCase()}?`}
+						okText={"Удалить"}
+						okButtonProps={{
+							danger: true
+						}}
+					>
+						<DeleteFilled style={{ fontSize: 20 }} key={"delete"} />
+					</Popconfirm>,
 					<EditFilled style={{ fontSize: 20 }} key={"edit"} />
 				]}
 			>
-				<Typography.Paragraph style={{ flexGrow: 1 }}>{description}</Typography.Paragraph>
+				<Typography.Paragraph style={{ flexGrow: 1 }}>{task.description}</Typography.Paragraph>
 				<Flex style={{ marginTop: 20 }}>
 					<Tag
 						icon={<CalendarOutlined />}
-						color={completed ? "green-inverse" : "gold-inverse"}
+						color={task.completed ? "green-inverse" : "gold-inverse"}
 						style={{ fontSize: 14, paddingBlock: 4 }}
 					>
-						{date}
+						{task.date}
 					</Tag>
 				</Flex>
 			</Card>

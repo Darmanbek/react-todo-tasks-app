@@ -1,10 +1,10 @@
 import { Card, Col, Result, Row, Skeleton, Typography } from "antd"
 import dayjs from "dayjs"
-import React, { useEffect } from "react"
+import React from "react"
 import { useParams } from "react-router-dom"
 import type { ITask } from "src/model/task"
-import { useAppDispatch, useAppSelector } from "src/store/hooks"
-import { getTasks } from "src/store/tasks/tasks.thunks"
+import { useGetTasksQuery } from "src/store/endpoints"
+import { useAppSelector } from "src/store/hooks"
 import { TaskItem } from "./TaskItem/TaskItem"
 
 const categoryFilter = (task: ITask, category?: string) => {
@@ -23,16 +23,14 @@ const categoryFilter = (task: ITask, category?: string) => {
 }
 
 const SectionTasks: React.FC = () => {
-	const { tasks, loading } = useAppSelector((state) => state.tasks)
 	const { search } = useAppSelector((state) => state.search)
-	const dispatch = useAppDispatch()
+	const { data: tasks = [], isLoading } = useGetTasksQuery({
+		search
+	})
 	const { categoryId = "" } = useParams()
 
-	const filteredTasks = tasks.filter((task) => categoryFilter(task, categoryId))
+	const filteredTasks = tasks?.filter((task) => categoryFilter(task, categoryId))
 
-	useEffect(() => {
-		dispatch(getTasks({ search }))
-	}, [dispatch, search])
 	return (
 		<section style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
 			<div style={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
@@ -42,11 +40,11 @@ const SectionTasks: React.FC = () => {
 					}}
 				>
 					<Typography.Title level={2} style={{ fontSize: 20, fontWeight: 500 }}>
-						Все задачи ({tasks.length} задача)
+						Все задачи ({tasks?.length || 0} задача)
 					</Typography.Title>
 				</div>
 				<Row gutter={20} style={{ rowGap: 20 }}>
-					{loading
+					{isLoading
 						? Array.from({ length: 4 }).map((_, index) => (
 								<Col key={index} xs={24} md={12} xxl={8}>
 									<Card
@@ -67,7 +65,7 @@ const SectionTasks: React.FC = () => {
 								</Col>
 							))}
 				</Row>
-				{!loading && filteredTasks.length === 0 && (
+				{!isLoading && filteredTasks?.length === 0 && (
 					<Card
 						bordered={false}
 						style={{

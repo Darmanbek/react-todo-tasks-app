@@ -1,32 +1,39 @@
 import { Button, Checkbox, DatePicker, Form, type FormProps, Input, Modal, Select, Tag } from "antd"
 import dayjs from "dayjs"
-import { type FC } from "react"
+import { type FC, useEffect } from "react"
 import { catalogData } from "src/data/catalog.data"
-import type { ITask } from "src/model/task"
+import type { ITask, ITaskChange } from "src/model/task"
+import { useAddTaskMutation } from "src/store/endpoints"
 import { useAppDispatch, useAppSelector } from "src/store/hooks"
 import { toggleModal } from "src/store/modal/modal.slice"
-import { addTask } from "src/store/tasks/tasks.thunks"
 
 const { TextArea } = Input
 
 const ModalTask: FC = () => {
 	const { isOpen } = useAppSelector((state) => state.modal)
 	const dispatch = useAppDispatch()
-	const [form] = Form.useForm<ITask>()
+	const [form] = Form.useForm<ITaskChange>()
+
+	const [addTask, { isLoading, status, isSuccess }] = useAddTaskMutation()
 
 	const onCloseModal = () => {
 		form.resetFields()
 		if (isOpen) dispatch(toggleModal())
 	}
 
-	const onFinish: FormProps["onFinish"] = (values) => {
+	const onFinish: FormProps<ITaskChange>["onFinish"] = (values) => {
 		if (values.date) {
 			values.date = dayjs(values.date).format("YYYY-MM-DD")
 		}
-		dispatch(addTask(values))
+		addTask(values)
 		onCloseModal()
 	}
 
+	useEffect(() => {
+		if (isSuccess && status === "fulfilled") {
+			onCloseModal()
+		}
+	}, [])
 	return (
 		<Modal
 			mask={true}
@@ -110,7 +117,13 @@ const ModalTask: FC = () => {
 					<Checkbox>Отметить как выполненное</Checkbox>
 				</Form.Item>
 				<Form.Item>
-					<Button block={true} size={"large"} type={"primary"} htmlType={"submit"}>
+					<Button
+						loading={isLoading}
+						block={true}
+						size={"large"}
+						type={"primary"}
+						htmlType={"submit"}
+					>
 						Добавить задачу
 					</Button>
 				</Form.Item>

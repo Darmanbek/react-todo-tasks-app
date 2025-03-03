@@ -3,6 +3,7 @@ import { Avatar, Button, Drawer, Flex, Progress, Space, Switch, Typography } fro
 import { useResponsive } from "antd-style"
 import React, { useEffect } from "react"
 import { setDrawer } from "src/store/drawer/drawer.slice"
+import { useGetTasksQuery } from "src/store/endpoints"
 import { useAppDispatch, useAppSelector } from "src/store/hooks"
 import { toggleMode } from "src/store/mode/mode.slice"
 
@@ -10,7 +11,7 @@ const ProfileDrawer: React.FC = () => {
 	const { xl } = useResponsive()
 	const { right } = useAppSelector((state) => state.drawer)
 	const { isDarkMode } = useAppSelector((state) => state.mode)
-	const { tasks } = useAppSelector((state) => state.tasks)
+	const { data: tasks = [] } = useGetTasksQuery({})
 	const dispatch = useAppDispatch()
 
 	const toggleTheme = () => {
