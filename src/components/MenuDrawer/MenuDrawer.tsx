@@ -1,24 +1,20 @@
 import { Button, Drawer, Flex, Menu, Typography } from "antd"
 import { useResponsive } from "antd-style"
-import React, { useEffect } from "react"
+import { type FC, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 import { setDrawer } from "src/store/drawer/drawer.slice"
 import { useAppDispatch, useAppSelector } from "src/store/hooks"
 import { toggleModal } from "src/store/modal/modal.slice"
 import { useMenuItems } from "./useMenuItems"
 
-const MenuDrawer: React.FC = () => {
+const MenuDrawer: FC = () => {
 	const { xl } = useResponsive()
 
 	const { isDarkMode } = useAppSelector((state) => state.mode)
 	const { left } = useAppSelector((state) => state.drawer)
-	const { category } = useAppSelector((state) => state.tasks)
+	const { pathname } = useLocation()
 	const dispatch = useAppDispatch()
 	const items = useMenuItems()
-
-	// const showDrawer = useCallback(() => {
-	// 	dispatch(setLeftDrawer(true))
-	// 	dispatch(setDrawerMask(false))
-	// }, [dispatch])
 
 	const onClose = () => {
 		dispatch(
@@ -89,7 +85,7 @@ const MenuDrawer: React.FC = () => {
 						backgroundColor: "transparent"
 					}}
 					theme={isDarkMode ? "dark" : "light"}
-					defaultSelectedKeys={[category]}
+					defaultSelectedKeys={[pathname]}
 					mode={"inline"}
 					items={items}
 				/>
